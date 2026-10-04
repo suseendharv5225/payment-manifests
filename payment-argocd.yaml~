@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: payment-service
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: suseendharv5225/payment-manifests.git
+    targetRevision: main
+    path: payment-helm
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: payment-app
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
